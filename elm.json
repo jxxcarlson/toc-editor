@@ -1,0 +1,17 @@
+{
+    "type": "package",
+    "name": "jxxcarlson/elm-dnd-toc",
+    "summary": "Drag and drop editor for table of contents",
+    "license": "MIT",
+    "version": "1.0.0",
+    "exposed-modules": ["HTOC"],
+    "elm-version": "0.19.0 <= v < 0.20.0",
+    "dependencies": {
+        "annaghi/dnd-list": "6.0.1 <= v < 7.0.0",
+        "elm/core": "1.0.0 <= v < 2.0.0",
+        "jxxcarlson/htree": "2.0.1 <= v < 3.0.0",
+        "mdgriffith/elm-ui": "1.1.8 <= v < 2.0.0",
+        "zwilias/elm-rosetree": "1.5.0 <= v < 2.0.0"
+    },
+    "test-dependencies": {}
+}
