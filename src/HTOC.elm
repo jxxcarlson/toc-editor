@@ -1,15 +1,22 @@
-module HTOC exposing (Item, SimpleItem, increment,decrement, init, update)
+module HTOC exposing (Item, SimpleItem, increment,decrement, init, update, getLevel, getSectionNumber)
 
 {-| This library facilitates editing of multi-level tables of contents and can be used,
-    as in the demo, to construct a drag-and-drop editor for such.
+    as in the demo, to construct a drag-and-drop editor for such tables.
+
+
 
 ## Types
 @docs Item, SimpleItem
 
-## Common Helpers
-@docs increment, decrement, init, update
-     
+## API for drag-and-drop editor
+@docs  init, update, increment, decrement
 
+## Helpers for exporting computed information
+
+These helpers are useful if a `List Item` must
+be transformed to a `List SomeOtherKindOfItem`.
+
+@docs getLevel, getSectionNumber
 
 -}
 
@@ -18,22 +25,33 @@ import Tree exposing(Tree)
 
 type alias Id = String  
 
-{-| 
 
--}
-type alias SimpleItem a =
-  {a | level : Int, title: String, id: Id }
 
-{-| 
+{-| The type for tables of content.
 
 -}
 type alias Item =
   {levels : Levels, title: String, id: Id, sectionNumber : String }
 
 
+{-| This is the type of items that the `init` function
+operates on to produce a list of `Item`.  If the table
+editor must operate on a list of items from "outside,"
+those items must have the fields `level`, `title`, and `id`.
+
+-}
+type alias SimpleItem a =
+  {a | level : Int, title: String, id: Id }
+
 type alias Levels = { curr : Int, prev : Int}
 
-{-| 
+
+
+{-|
+
+ Update the levels and section numbers of each item.  These
+ change if the items or reordered or their levels are changed.
+ The update function repairs lists that are not well-formed.
 
 -}
 update : List Item -> List Item
@@ -49,9 +67,17 @@ update items =
 
 
 -- TREE OPERATIONS
-
-getLevel : Item -> Int 
+{-|
+  Return the updated level of an item.
+-}
+getLevel : Item -> Int
 getLevel item = item.levels.curr
+
+{-|
+  Return the updated section number of an item.
+-}
+getSectionNumber : Item -> String
+getSectionNumber item = item.sectionNumber
 
 root : Item 
 root = { levels = { curr = 0, prev = -1} , title = "root", id = "*", sectionNumber = "" } 
@@ -86,7 +112,11 @@ toSimpleItem : Item -> SimpleItem {}
 toSimpleItem i = {title = i.title, id = i.id, level = i.levels.curr }
 
 
-{-| 
+{-|
+
+Transform a list of SimpleItems to a list of items.  The essential
+point is to compute a levels field, which is used internally to ensure
+that the TOC is well-formed.
 
 -}
 init : List (SimpleItem a) -> List Item
@@ -107,7 +137,7 @@ toItemWithLevel item levels =
 updateLevels : List Item -> List Item
 updateLevels items = 
     let
-        ls = makeLevels (List.map getLevel items)  
+        ls = makeLevels (List.map getLevel items)
     in
         List.map2 (\item levels -> {item | levels = levels}) items ls
 
@@ -124,7 +154,9 @@ makeLevels js =
 -- INCREMENT AND DECREMENT
 
 
-{-| 
+{-|
+
+Increment the level of the item in a list with given id.
 
 -}
 increment : Id -> List Item -> List Item    
@@ -133,6 +165,8 @@ increment  id items =
 
 
 {-| 
+
+Decrement the level of the item in a list with given id.
 
 -}
 decrement : Id -> List Item -> List Item    
