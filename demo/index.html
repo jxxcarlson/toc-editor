@@ -5197,13 +5197,13 @@ var $elm$core$Task$perform = F2(
 var $elm$browser$Browser$element = _Browser_element;
 var $author$project$Main$data = _List_fromArray(
 	[
-		{id: 'a', level: 0, sectionNumber: '', title: 'Mount Yadaax-Vor'},
-		{id: 'b', level: 0, sectionNumber: '', title: 'The Kraken Roars'},
-		{id: 'c', level: 0, sectionNumber: '', title: 'The Magic Stone'},
-		{id: 'd', level: 0, sectionNumber: '', title: 'A Quiet Pool'},
-		{id: 'e', level: 0, sectionNumber: '', title: 'Lost on the River'},
-		{id: 'f', level: 0, sectionNumber: '', title: 'Crossing the Desert'},
-		{id: 'g', level: 0, sectionNumber: '', title: 'A Strange Beast'}
+		{id: 'a', level: 0, title: 'Mount Yadaax-Vor'},
+		{id: 'b', level: 0, title: 'The Kraken Roars'},
+		{id: 'c', level: 0, title: 'The Magic Stone'},
+		{id: 'd', level: 0, title: 'A Quiet Pool'},
+		{id: 'e', level: 0, title: 'Lost on the River'},
+		{id: 'f', level: 0, title: 'Crossing the Desert'},
+		{id: 'g', level: 0, title: 'A Strange Beast'}
 	]);
 var $elm$core$Basics$negate = function (n) {
 	return -n;
@@ -5334,7 +5334,7 @@ var $elm$core$List$take = F2(
 	function (n, list) {
 		return A3($elm$core$List$takeFast, 0, n, list);
 	});
-var $author$project$TOC$makeLevels = function (js) {
+var $author$project$HTOC$makeLevels = function (js) {
 	var n = $elm$core$List$length(js);
 	var is = A2(
 		$elm$core$List$take,
@@ -5349,12 +5349,12 @@ var $author$project$TOC$makeLevels = function (js) {
 		is,
 		js);
 };
-var $author$project$TOC$toItemWithLevel = F2(
+var $author$project$HTOC$toItemWithLevel = F2(
 	function (item, levels) {
-		return {id: item.id, levels: levels, sectionNumber: item.sectionNumber, title: item.title};
+		return {id: item.id, levels: levels, sectionNumber: '', title: item.title};
 	});
-var $author$project$TOC$init = function (items) {
-	var levels = $author$project$TOC$makeLevels(
+var $author$project$HTOC$init = function (items) {
+	var levels = $author$project$HTOC$makeLevels(
 		A2(
 			$elm$core$List$map,
 			function ($) {
@@ -5365,7 +5365,7 @@ var $author$project$TOC$init = function (items) {
 		$elm$core$List$map2,
 		F2(
 			function (item, level) {
-				return A2($author$project$TOC$toItemWithLevel, item, level);
+				return A2($author$project$HTOC$toItemWithLevel, item, level);
 			}),
 		items,
 		levels);
@@ -6548,7 +6548,7 @@ var $elm$core$List$head = function (list) {
 		return $elm$core$Maybe$Nothing;
 	}
 };
-var $author$project$TOC$loop = F2(
+var $author$project$HTOC$loop = F2(
 	function (s, nextState) {
 		loop:
 		while (true) {
@@ -6566,40 +6566,40 @@ var $author$project$TOC$loop = F2(
 			}
 		}
 	});
-var $author$project$TOC$Done = function (a) {
+var $author$project$HTOC$Done = function (a) {
 	return {$: 'Done', a: a};
 };
-var $author$project$TOC$Loop = function (a) {
+var $author$project$HTOC$Loop = function (a) {
 	return {$: 'Loop', a: a};
 };
-var $author$project$TOC$setLevel_ = F2(
+var $author$project$HTOC$setLevel_ = F2(
 	function (k, levels) {
 		return {curr: k, prev: levels.prev};
 	});
-var $author$project$TOC$setLevel = F2(
+var $author$project$HTOC$setLevel = F2(
 	function (k, item) {
 		return _Utils_update(
 			item,
 			{
-				levels: A2($author$project$TOC$setLevel_, k, item.levels)
+				levels: A2($author$project$HTOC$setLevel_, k, item.levels)
 			});
 	});
-var $author$project$TOC$nextMState = function (state) {
+var $author$project$HTOC$nextMState = function (state) {
 	var _v0 = $elm$core$List$head(state.input);
 	if (_v0.$ === 'Nothing') {
-		return $author$project$TOC$Done(state.output);
+		return $author$project$HTOC$Done(state.output);
 	} else {
 		var item = _v0.a;
 		if (_Utils_cmp(item.levels.curr, state.currentItem.levels.curr + 1) < 1) {
-			return $author$project$TOC$Loop(
+			return $author$project$HTOC$Loop(
 				{
 					currentItem: item,
 					input: A2($elm$core$List$drop, 1, state.input),
 					output: A2($elm$core$List$cons, item, state.output)
 				});
 		} else {
-			var newItem = A2($author$project$TOC$setLevel, state.currentItem.levels.curr + 1, item);
-			return $author$project$TOC$Loop(
+			var newItem = A2($author$project$HTOC$setLevel, state.currentItem.levels.curr + 1, item);
+			return $author$project$HTOC$Loop(
 				{
 					currentItem: newItem,
 					input: A2($elm$core$List$drop, 1, state.input),
@@ -6608,13 +6608,13 @@ var $author$project$TOC$nextMState = function (state) {
 		}
 	}
 };
-var $author$project$TOC$rectify = function (items) {
+var $author$project$HTOC$rectify = function (items) {
 	var _v0 = $elm$core$List$head(items);
 	if (_v0.$ === 'Nothing') {
 		return _List_Nil;
 	} else {
 		var firstItem_ = _v0.a;
-		var firstItem = A2($author$project$TOC$setLevel, 0, firstItem_);
+		var firstItem = A2($author$project$HTOC$setLevel, 0, firstItem_);
 		var initialState = {
 			currentItem: firstItem,
 			input: A2($elm$core$List$drop, 1, items),
@@ -6622,7 +6622,7 @@ var $author$project$TOC$rectify = function (items) {
 				[firstItem])
 		};
 		return $elm$core$List$reverse(
-			A2($author$project$TOC$loop, initialState, $author$project$TOC$nextMState));
+			A2($author$project$HTOC$loop, initialState, $author$project$HTOC$nextMState));
 	}
 };
 var $zwilias$elm_rosetree$Tree$Zipper$Zipper = function (a) {
@@ -6893,10 +6893,10 @@ var $jxxcarlson$htree$HTree$fromList = F3(
 					$zwilias$elm_rosetree$Tree$singleton(rootLabel)),
 				lst));
 	});
-var $author$project$TOC$getLevel = function (item) {
+var $author$project$HTOC$getLevel = function (item) {
 	return item.levels.curr;
 };
-var $author$project$TOC$root = {
+var $author$project$HTOC$root = {
 	id: '*',
 	levels: {curr: 0, prev: -1},
 	sectionNumber: '',
@@ -7013,7 +7013,7 @@ var $zwilias$elm_rosetree$Tree$map = F2(
 			_Utils_Tuple0,
 			t).b;
 	});
-var $author$project$TOC$stringFromIndex = function (is) {
+var $author$project$HTOC$stringFromIndex = function (is) {
 	return A2(
 		$elm$core$String$join,
 		'.',
@@ -7022,7 +7022,7 @@ var $author$project$TOC$stringFromIndex = function (is) {
 			$elm$core$String$fromInt,
 			$elm$core$List$reverse(is)));
 };
-var $author$project$TOC$tagWithMultiIndexHelp = F2(
+var $author$project$HTOC$tagWithMultiIndexHelp = F2(
 	function (ks, t) {
 		var c = $zwilias$elm_rosetree$Tree$children(t);
 		return A2(
@@ -7035,13 +7035,13 @@ var $author$project$TOC$tagWithMultiIndexHelp = F2(
 				F2(
 					function (i, t_) {
 						return A2(
-							$author$project$TOC$tagWithMultiIndexHelp,
+							$author$project$HTOC$tagWithMultiIndexHelp,
 							A2($elm$core$List$cons, i + 1, ks),
 							t_);
 					}),
 				c));
 	});
-var $author$project$TOC$tagWithMultiIndex = function (t) {
+var $author$project$HTOC$tagWithMultiIndex = function (t) {
 	return A2(
 		$zwilias$elm_rosetree$Tree$map,
 		function (_v0) {
@@ -7049,17 +7049,17 @@ var $author$project$TOC$tagWithMultiIndex = function (t) {
 			var idx = _v0.b;
 			return _Utils_Tuple2(
 				info,
-				$author$project$TOC$stringFromIndex(idx));
+				$author$project$HTOC$stringFromIndex(idx));
 		},
-		A2($author$project$TOC$tagWithMultiIndexHelp, _List_Nil, t));
+		A2($author$project$HTOC$tagWithMultiIndexHelp, _List_Nil, t));
 };
-var $author$project$TOC$tagTree = function (items) {
-	return $author$project$TOC$tagWithMultiIndex(
-		A3($jxxcarlson$htree$HTree$fromList, $author$project$TOC$root, $author$project$TOC$getLevel, items));
+var $author$project$HTOC$tagTree = function (items) {
+	return $author$project$HTOC$tagWithMultiIndex(
+		A3($jxxcarlson$htree$HTree$fromList, $author$project$HTOC$root, $author$project$HTOC$getLevel, items));
 };
-var $author$project$TOC$updateLevels = function (items) {
-	var ls = $author$project$TOC$makeLevels(
-		A2($elm$core$List$map, $author$project$TOC$getLevel, items));
+var $author$project$HTOC$updateLevels = function (items) {
+	var ls = $author$project$HTOC$makeLevels(
+		A2($elm$core$List$map, $author$project$HTOC$getLevel, items));
 	return A3(
 		$elm$core$List$map2,
 		F2(
@@ -7071,7 +7071,7 @@ var $author$project$TOC$updateLevels = function (items) {
 		items,
 		ls);
 };
-var $author$project$TOC$update = function (items) {
+var $author$project$HTOC$update = function (items) {
 	return A2(
 		$elm$core$List$map,
 		function (_v0) {
@@ -7085,14 +7085,14 @@ var $author$project$TOC$update = function (items) {
 			$elm$core$List$drop,
 			1,
 			$zwilias$elm_rosetree$Tree$flatten(
-				$author$project$TOC$tagTree(
-					$author$project$TOC$updateLevels(
-						$author$project$TOC$rectify(items))))));
+				$author$project$HTOC$tagTree(
+					$author$project$HTOC$updateLevels(
+						$author$project$HTOC$rectify(items))))));
 };
 var $author$project$Main$initialModel = {
 	dnd: $author$project$Main$system.model,
-	items: $author$project$TOC$update(
-		$author$project$TOC$init($author$project$Main$data))
+	items: $author$project$HTOC$update(
+		$author$project$HTOC$init($author$project$Main$data))
 };
 var $author$project$Main$init = function (_v0) {
 	return _Utils_Tuple2($author$project$Main$initialModel, $elm$core$Platform$Cmd$none);
@@ -7100,50 +7100,50 @@ var $author$project$Main$init = function (_v0) {
 var $author$project$Main$subscriptions = function (model) {
 	return $author$project$Main$system.subscriptions(model.dnd);
 };
-var $author$project$TOC$canDecrement = function (item) {
+var $author$project$HTOC$canDecrement = function (item) {
 	return item.levels.curr > 0;
 };
-var $author$project$TOC$decrementLevels = function (_v0) {
+var $author$project$HTOC$decrementLevels = function (_v0) {
 	var curr = _v0.curr;
 	var prev = _v0.prev;
 	return {curr: curr - 1, prev: prev};
 };
-var $author$project$TOC$decrementItem_ = F2(
+var $author$project$HTOC$decrementItem_ = F2(
 	function (id, item) {
-		return (_Utils_eq(id, item.id) && $author$project$TOC$canDecrement(item)) ? _Utils_update(
+		return (_Utils_eq(id, item.id) && $author$project$HTOC$canDecrement(item)) ? _Utils_update(
 			item,
 			{
-				levels: $author$project$TOC$decrementLevels(item.levels)
+				levels: $author$project$HTOC$decrementLevels(item.levels)
 			}) : item;
 	});
-var $author$project$TOC$decrement = F2(
+var $author$project$HTOC$decrement = F2(
 	function (id, items) {
 		return A2(
 			$elm$core$List$map,
-			$author$project$TOC$decrementItem_(id),
+			$author$project$HTOC$decrementItem_(id),
 			items);
 	});
-var $author$project$TOC$canIncrement = function (item) {
+var $author$project$HTOC$canIncrement = function (item) {
 	return _Utils_cmp(item.levels.curr, item.levels.prev + 1) < 1;
 };
-var $author$project$TOC$incrementLevels = function (_v0) {
+var $author$project$HTOC$incrementLevels = function (_v0) {
 	var curr = _v0.curr;
 	var prev = _v0.prev;
 	return {curr: curr + 1, prev: prev};
 };
-var $author$project$TOC$incrementItem_ = F2(
+var $author$project$HTOC$incrementItem_ = F2(
 	function (id, item) {
-		return (_Utils_eq(id, item.id) && $author$project$TOC$canIncrement(item)) ? _Utils_update(
+		return (_Utils_eq(id, item.id) && $author$project$HTOC$canIncrement(item)) ? _Utils_update(
 			item,
 			{
-				levels: $author$project$TOC$incrementLevels(item.levels)
+				levels: $author$project$HTOC$incrementLevels(item.levels)
 			}) : item;
 	});
-var $author$project$TOC$increment = F2(
+var $author$project$HTOC$increment = F2(
 	function (id, items) {
 		return A2(
 			$elm$core$List$map,
-			$author$project$TOC$incrementItem_(id),
+			$author$project$HTOC$incrementItem_(id),
 			items);
 	});
 var $author$project$Main$update = F2(
@@ -7159,13 +7159,13 @@ var $author$project$Main$update = F2(
 						model,
 						{
 							dnd: dnd,
-							items: $author$project$TOC$update(items)
+							items: $author$project$HTOC$update(items)
 						}),
 					$author$project$Main$system.commands(dnd));
 			case 'IncrementLevel':
 				var id = message.a;
-				var items = $author$project$TOC$update(
-					A2($author$project$TOC$increment, id, model.items));
+				var items = $author$project$HTOC$update(
+					A2($author$project$HTOC$increment, id, model.items));
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
@@ -7173,8 +7173,8 @@ var $author$project$Main$update = F2(
 					$elm$core$Platform$Cmd$none);
 			default:
 				var id = message.a;
-				var items = $author$project$TOC$update(
-					A2($author$project$TOC$decrement, id, model.items));
+				var items = $author$project$HTOC$update(
+					A2($author$project$HTOC$decrement, id, model.items));
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,

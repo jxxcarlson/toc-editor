@@ -40,13 +40,13 @@ type alias Model =
 
 data : List (SimpleItem {})
 data =
-    [  { level = 0, title = "Mount Yadaax-Vor", id = "a", sectionNumber = ""  }
-    ,  {  level = 0, title =  "The Kraken Roars", id = "b", sectionNumber = ""  }
-     , { level = 0, title = "The Magic Stone", id = "c", sectionNumber = ""  }
-     , { level = 0, title = "A Quiet Pool", id = "d", sectionNumber = ""  }
-     , { level = 0, title = "Lost on the River", id = "e", sectionNumber = ""  }
-     , { level = 0, title = "Crossing the Desert", id = "f", sectionNumber = ""  }
-     , { level = 0, title = "A Strange Beast", id = "g", sectionNumber = ""  }
+    [  { level = 0, title = "Mount Yadaax-Vor", id = "a"  }
+    ,  {  level = 0, title =  "The Kraken Roars", id = "b"  }
+     , { level = 0, title = "The Magic Stone", id = "c" }
+     , { level = 0, title = "A Quiet Pool", id = "d"  }
+     , { level = 0, title = "Lost on the River", id = "e"  }
+     , { level = 0, title = "Crossing the Desert", id = "f" }
+     , { level = 0, title = "A Strange Beast", id = "g"  }
 
     ]
         

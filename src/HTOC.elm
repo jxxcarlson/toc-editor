@@ -22,7 +22,7 @@ type alias Id = String
 
 -}
 type alias SimpleItem a =
-  {a | level : Int, title: String, id: Id, sectionNumber : String }
+  {a | level : Int, title: String, id: Id }
 
 {-| 
 
@@ -83,7 +83,7 @@ tagWithMultiIndexHelp ks t =
 -- Item <--> Item
 
 toSimpleItem : Item -> SimpleItem {}
-toSimpleItem i = {title = i.title, id = i.id, sectionNumber = i.sectionNumber, level = i.levels.curr }
+toSimpleItem i = {title = i.title, id = i.id, level = i.levels.curr }
 
 
 {-| 
@@ -98,7 +98,7 @@ init items =
 
 toItemWithLevel : SimpleItem a -> Levels -> Item
 toItemWithLevel item levels = 
-  { title = item.title, id = item.id, sectionNumber = item.sectionNumber, levels = levels}
+  { title = item.title, id = item.id, sectionNumber = "", levels = levels}
 
 
 
