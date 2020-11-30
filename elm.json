@@ -3,8 +3,10 @@
     "name": "jxxcarlson/toc-editor",
     "summary": "Drag and drop editor for table of contents",
     "license": "MIT",
-    "version": "1.0.0",
-    "exposed-modules": ["HTOC"],
+    "version": "1.0.1",
+    "exposed-modules": [
+        "HTOC"
+    ],
     "elm-version": "0.19.0 <= v < 0.20.0",
     "dependencies": {
         "annaghi/dnd-list": "6.0.1 <= v < 7.0.0",
