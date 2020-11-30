@@ -1,6 +1,6 @@
 {
     "type": "package",
-    "name": "jxxcarlson/elm-dnd-toc",
+    "name": "jxxcarlson/toc-editor",
     "summary": "Drag and drop editor for table of contents",
     "license": "MIT",
     "version": "1.0.0",
